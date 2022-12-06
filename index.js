@@ -153,8 +153,8 @@ function showSavedPalletsByCPFS(){
     //     createPalletsForShow(JSON.parse(showSavedArrayPallets));
     // }
 }
-const arrayDefinitive = []
 
+const arrayGral = []
 function saveInLocalStorage(el){
     
     // if (localStorage.length===1){
@@ -169,13 +169,24 @@ function saveInLocalStorage(el){
         // console.log(palletObj)
         // arrayDefinitive.push(palletObj)
         // console.log(arrayDefinitive)
-        arrayDefinitive.push(el)
-        const arrayDefinitiveJSON = JSON.stringify(arrayDefinitive)
-        console.log(arrayDefinitiveJSON)
-        localStorage.setItem('jSonSavedArrayPallets',arrayDefinitiveJSON);
-        const otro = localStorage.getItem('jSonSavedArrayPallets');
-        const otroarray = JSON.parse(otro)
-        console.log(otroarray)
+        // arrayDefinitive.push(el)
+        // console.log(arrayDefinitive)
+        // const arrayDefinitiveJSON = JSON.stringify(arrayDefinitive)
+        // console.log(arrayDefinitiveJSON)
+        // localStorage.setItem('jSonSavedArrayPallets',arrayDefinitiveJSON);
+        // const otro = localStorage.getItem('jSonSavedArrayPallets');
+        // const otroarray = JSON.parse(otro)
+        // console.log(otroarray)
+        
+
+        
+        const jSonSavedArrayPallets = JSON.stringify(el);
+        arrayGral.push(jSonSavedArrayPallets)
+        console.log(arrayGral)
+        localStorage.setItem('arrayGral',arrayGral);
+        const otro = JSON.parse(localStorage.getItem('arrayGral'));
+        console.log(otro)
+
     
 }
 
@@ -234,10 +245,10 @@ function createDivShowAllPallets(){
     divShowAllPallets = document.createElement('div');
     sectionShowAllPallets.append(divShowAllPallets);
 }
-async function deleteSave(e){
+function deleteSave(e){
     cleanView();
     if(e === "buttonSavePallet"){
-        await saveInLocalStorage(arrayPallet);
+        saveInLocalStorage(arrayPallet);
         savedDataLocalStorage();
         arrayPallet.splice(0,arrayPallet.length);
     }else{
