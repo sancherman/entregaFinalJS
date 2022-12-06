@@ -143,60 +143,27 @@ function savedDataLocalStorage(){
     }
 }
 function showSavedPalletsByCPFS(){
-    
-        const otro = localStorage.getItem('jSonSavedArrayPallets');
-        const otroarray = JSON.parse(otro)
-        console.log(otroarray)
-        
-    // for(iLocal=0;iLocal<localStorage.length;iLocal++){
-    //     const showSavedArrayPallets = localStorage.getItem('jSonSavedArrayPallets'+iLocal);
-    //     createPalletsForShow(JSON.parse(showSavedArrayPallets));
-    // }
+    const otro = localStorage.getItem('arrayGral');
+    const otroarray = JSON.parse(otro)
+    console.log(otroarray)
 }
-
 const arrayGral = []
 function saveInLocalStorage(el){
-    
-    // if (localStorage.length===1){
-    //     const otro = localStorage.getItem('jSonSavedArrayPallets');
-    //     const otroarray = JSON.parse(otro)
-    //     arrayDefinitive.push(otroarray)
-    //     console.log(arrayDefinitive)
-    // }else{
-        // let i = 0
-        // const palletObj = new palletConst(i,el)
-        // i++
-        // console.log(palletObj)
-        // arrayDefinitive.push(palletObj)
-        // console.log(arrayDefinitive)
-        // arrayDefinitive.push(el)
-        // console.log(arrayDefinitive)
-        // const arrayDefinitiveJSON = JSON.stringify(arrayDefinitive)
-        // console.log(arrayDefinitiveJSON)
-        // localStorage.setItem('jSonSavedArrayPallets',arrayDefinitiveJSON);
-        // const otro = localStorage.getItem('jSonSavedArrayPallets');
-        // const otroarray = JSON.parse(otro)
-        // console.log(otroarray)
-        
-
-        
-        const jSonSavedArrayPallets = JSON.stringify(el);
-        arrayGral.push(jSonSavedArrayPallets)
-        console.log(arrayGral)
-        localStorage.setItem('arrayGral',arrayGral);
-        const otro = JSON.parse(localStorage.getItem('arrayGral'));
-        console.log(otro)
-
-    
+        let indice = arrayGral.length
+        const palletObj = new palletConst(indice,el)
+        const arrayGralJSON = JSON.stringify(palletObj)
+        arrayGral.push(arrayGralJSON)
+        localStorage.setItem('arrayGral',arrayGral)
+        console.log(localStorage)
 }
-
+// localStorage.clear();
 class palletConst{
-    constructor(id,pallet){
-        this.id = id;
+    constructor(numberOfPallet,pallet){
+        this.numberOfPallet = numberOfPallet;
         this.pallet = pallet;
     }
 }
-// localStorage.clear();
+
 let sectionPallets
 function createPalletsForShow(e){
     sectionPallets = document.createElement('section');
