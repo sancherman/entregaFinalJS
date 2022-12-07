@@ -9,12 +9,29 @@ const dataFromLocalStorage = localStorage.getItem('dataFromAPIJSON');
 const dataFromLocalStorageJSON = JSON.parse(dataFromLocalStorage)
 divGral.append(buttonSavePallet);
 divGral.append(sectionGral)
+class myColourConst{
+    constructor(a,b,c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+}
+const arrayForSave = [];
+function createRGBForSave(a,b,c){
+    const colourForSave = new myColourConst(a,b,c)
+    console.log(colourForSave)
+    arrayForSave.push(colourForSave)
+}
 function createPalletsForShow(e){
-    
-    sectionPallets = document.createElement('section');
-    sectionPallets.setAttribute('id',"sectionPallets");
-    sectionPallets.setAttribute('class',"sectionPallets");
+const sectionPallets = document.createElement('section');
+sectionPallets.setAttribute('id',"sectionPallets");
+sectionPallets.setAttribute('class',"sectionPallets");
     for(i=0;i<e.length;i++){
+        const R = e[i].rgb.r;
+        const G = e[i].rgb.g;
+        const B = e[i].rgb.b;
+        
+        createRGBForSave(R,G,B);
         let XYZ = document.createElement('h4');
         let cmyk = document.createElement('h4');
         let hex = document.createElement('h4');
@@ -78,11 +95,27 @@ function createPalletsForShow(e){
         eachPallets.append(hsvp);
         eachPallets.append(rgb);
         eachPallets.append(rgbp);
+
     }
     sectionGral.append(sectionPallets);
-    
 }
 createPalletsForShow(dataFromLocalStorageJSON);
-if(dataFromLocalStorageJSON){
-    localStorage.removeItem('dataFromAPIJSON');
+deleteItemFromLS();
+function deleteItemFromLS(){
+    if(dataFromLocalStorageJSON){
+        localStorage.removeItem('dataFromAPIJSON');
+    }
+}
+buttonSavePallet.onclick = () =>{
+    Toastify({
+        text:`Paleta Guardada`,
+        duration: 3000,
+        stopOnFocus: true,
+        style: {
+            background: "linear-gradient(to right, #9eee09, #9fa100)",
+        },
+    }).showToast()
+    let i = localStorage.length;
+    const jSonSavedArrayPallets = JSON.stringify(arrayForSave);
+    localStorage.setItem('jSonSavedArrayPallets'+i,jSonSavedArrayPallets);
 }
