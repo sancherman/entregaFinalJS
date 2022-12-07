@@ -1,6 +1,3 @@
-/* 
-body{background-image: url("/images/imagePallet.jpg");background-repeat: no-repeat;background-size: cover;} */
-
 .Circle1{
     border-radius: 50%;
     height: 200px;
@@ -40,6 +37,19 @@ button{
     background-color: aqua;
 }
 .containerAllS{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+.textOfCircle{
+    
+    background-color: white;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: solid;
+    border:solid 2px grey;
+}
+.sectionGral{
     display: flex;
     justify-content: space-around;
     flex-direction: row;

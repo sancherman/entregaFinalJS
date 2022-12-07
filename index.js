@@ -133,6 +133,11 @@ buttonShowPreviusSavedPallets.onclick = () =>{
     buttonCleanScreen.disabled = false;
     buttonDeleteSavedPallets.disabled = false;
 }
+let divShowAllPallets
+function createDivShowAllPallets(){
+    divShowAllPallets = document.createElement('div');
+    sectionShowAllPallets.append(divShowAllPallets);
+}
 function savedDataLocalStorage(){    
     if (localStorage.length === 0 ){
         buttonShowPreviusSavedPallets.disabled = true;
@@ -143,19 +148,50 @@ function savedDataLocalStorage(){
     }
 }
 function showSavedPalletsByCPFS(){
-    const otro = localStorage.getItem('arrayGral');
-    const otroarray = JSON.parse(otro)
-    console.log(otroarray)
+    // for(iLocal=0;iLocal<localStorage.length;iLocal++){
+    //     const showSavedArrayPallets = localStorage.getItem('jSonSavedArrayPallets'+iLocal);
+    //     createPalletsForShow(JSON.parse(showSavedArrayPallets));
+    // }
+    const arrayGralFromLS = JSON.parse(localStorage.getItem('arrayGral')) || [];
+    console.log(arrayGralFromLS);
 }
+// localStorage.clear()
 const arrayGral = []
+let indice =0
 function saveInLocalStorage(el){
-        let indice = arrayGral.length
-        const palletObj = new palletConst(indice,el)
+    // let i = localStorage.length;
+    // const jSonSavedArrayPallets = JSON.stringify(el);
+    // localStorage.setItem('jSonSavedArrayPallets'+i,jSonSavedArrayPallets);
+    
+
+        
+        const palletObj = new palletConst(arrayGral.length,el)
         const arrayGralJSON = JSON.stringify(palletObj)
         arrayGral.push(arrayGralJSON)
         localStorage.setItem('arrayGral',arrayGral)
-        console.log(localStorage)
+        console.log(localStorage.getItem('arrayGral'))
+        // console.log(localStorage)
+        // let indice = arrayGral.length
+        // const palletObj = new palletConst(indice,el)
+        
+        // arrayGral.push(palletObj)
+        
+        // localStorage.setItem('arrayGral', JSON.stringify(arrayGral))
+        // console.log(localStorage)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 // localStorage.clear();
 class palletConst{
     constructor(numberOfPallet,pallet){
@@ -164,6 +200,58 @@ class palletConst{
     }
 }
 
+function deleteSave(e){
+    cleanView();
+    if(e === "buttonSavePallet"){
+        saveInLocalStorage(arrayPallet);
+        savedDataLocalStorage();
+        arrayPallet.splice(0,arrayPallet.length);
+    }else{
+        arrayPallet.splice(0,arrayPallet.length);
+        console.log(arrayPallet)
+    }
+
+}
+
+
+function cleanView(){
+    divShowAllPallets.remove();
+    if(localStorage.length === 0){
+        buttonShowPreviusSavedPallets.disabled = true;
+    }
+    buttonSavePallet.disabled = true;
+    buttonDeletePallet.disabled = true;
+    buttonSaveColour.disabled = false;
+    buttonDeleteSavedPallets.disabled = true;
+    buttonCleanScreen.disabled = true;
+}
+function showAllPallets(){
+    createDivShowAllPallets();
+    createPalletsForShow(arrayPallet);
+    buttonSaveColour.disabled = true;
+    buttonSavePallet.disabled = false;
+    buttonDeletePallet.disabled = false;
+}
+function fSaveColour(){
+    if(validateSave(textR.value,textG.value,textB.value)){
+        let newColour = new myColourConst(numOfSaveColour,R,G,B)
+        if (numOfSaveColour === 5){            
+            arrayPallet.push(newColour);
+            showAllPallets();
+            buttonSaveColour.innerText = ('Guardar Color 1');
+            numOfSaveColour = 1;
+        }else{
+            arrayPallet.push(newColour);
+            numOfSaveColour = arrayPallet.length+1;
+            buttonSaveColour.innerText = ('Guardar Color '+numOfSaveColour);
+            
+        }
+    }
+}
+function mix(){
+    colourMix = 'rgb('+R+','+G+','+B+')';
+    Circle1ID.style.backgroundColor= colourMix;
+}
 let sectionPallets
 function createPalletsForShow(e){
     sectionPallets = document.createElement('section');
@@ -206,87 +294,6 @@ function createPalletsForShow(e){
         eachPallets.append(inputB);
         eachPallets.append(circleForShow);
     }
-}
-let divShowAllPallets
-function createDivShowAllPallets(){
-    divShowAllPallets = document.createElement('div');
-    sectionShowAllPallets.append(divShowAllPallets);
-}
-function deleteSave(e){
-    cleanView();
-    if(e === "buttonSavePallet"){
-        saveInLocalStorage(arrayPallet);
-        savedDataLocalStorage();
-        arrayPallet.splice(0,arrayPallet.length);
-    }else{
-        arrayPallet.splice(0,arrayPallet.length);
-    }
-}
-
-
-
-
-    // let i = arrayDefinitive.length;
-    // const palletObj = new palletConst(i,el)
-    // arrayDefinitive.push(palletObj)
-    // if(localStorage.length===0){
-        
-        
-    //     const jSonSavedArrayPallets = JSON.stringify(arrayDefinitive);
-    //     localStorage.setItem('jSonSavedArrayPallets',jSonSavedArrayPallets);
-    //     const showSavedArrayPallets = localStorage.getItem('jSonSavedArrayPallets');
-    //     console.log(JSON.parse(showSavedArrayPallets));
-    // }else{
-        
-        
-    //     const obtener = localStorage.getItem('jSonSavedArrayPallets');
-    //     const obtenerJSON = (JSON.parse(obtener));
-    //     console.log(obtenerJSON)
-    //     console.log(arrayDefinitive)
-    //     // console.log(arrayDefinitive)
-    //     // const showSavedArrayPallets = localStorage.getItem('jSonSavedArrayPallets');
-    //     // console.log(JSON.parse(showSavedArrayPallets));
-    //     // console.log(arrayDefinitive)
-    // }
-    
-
-function cleanView(){
-    divShowAllPallets.remove();
-    if(localStorage.length === 0){
-        buttonShowPreviusSavedPallets.disabled = true;
-    }
-    buttonSavePallet.disabled = true;
-    buttonDeletePallet.disabled = true;
-    buttonSaveColour.disabled = false;
-    buttonDeleteSavedPallets.disabled = true;
-    buttonCleanScreen.disabled = true;
-}
-function showAllPallets(){
-    createDivShowAllPallets();
-    createPalletsForShow(arrayPallet);
-    buttonSaveColour.disabled = true;
-    buttonSavePallet.disabled = false;
-    buttonDeletePallet.disabled = false;
-}
-function fSaveColour(){
-    if(validateSave(textR.value,textG.value,textB.value)){
-        let newColour = new myColourConst(numOfSaveColour,R,G,B)
-        if (numOfSaveColour === 5){            
-            arrayPallet.push(newColour);
-            showAllPallets();
-            buttonSaveColour.innerText = ('Guardar Color 1');
-            numOfSaveColour = 1;
-        }else{
-            arrayPallet.push(newColour);
-            numOfSaveColour = arrayPallet.length+1;
-            buttonSaveColour.innerText = ('Guardar Color '+numOfSaveColour);
-            
-        }
-    }
-}
-function mix(){
-    colourMix = 'rgb('+R+','+G+','+B+')';
-    Circle1ID.style.backgroundColor= colourMix;
 }
 function verificationForMix(e){
     switch (e) {
@@ -401,7 +408,7 @@ function fillRandomColourData(){
     G = randomRGB();
     B = randomRGB();
 }
-const arrayPalletsFromAPI = [];
+
 const buttonGetAPI = document.getElementById("buttonGetAPI");
 buttonGetAPI.onclick = async () => {
     
@@ -422,18 +429,19 @@ buttonGetAPI.onclick = async () => {
 }
 
 async function getPalletFromAPI(){
+    const arrayPalletsFromAPI = [];
     for(let i=0;i<5;i++){
         const colourMixForApi = 'rgb('+randomRGB()+','+randomRGB()+','+randomRGB()+')';
         const palletsFromAPI = await fetch(`https://www.thecolorapi.com/id?rgb=${colourMixForApi}`);
         const palletsFromAPIJSON = await palletsFromAPI.json()
-        arrayPalletsFromAPI.push(palletsFromAPIJSON)
-        // console.log(palletsFromAPIJSON.rgb.value);    
+        arrayPalletsFromAPI.push(palletsFromAPIJSON) 
     }
-    return arrayPalletsFromAPI;
+    const dataFromAPIJSON = JSON.stringify(arrayPalletsFromAPI)
+    localStorage.setItem('dataFromAPIJSON',dataFromAPIJSON)
+    
 }
 
 function ventanaSecundaria(){ 
-    window.open('./palletsAPI.html',"ventana1","width=800,height=800,scrollbars=NO")
-
+    window.open('./palletsAPI.html',"ventana1","width=1400,height=900,scrollbars=NO")
 }
 
